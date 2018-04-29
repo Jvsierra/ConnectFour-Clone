@@ -12,6 +12,8 @@ int m[L][C], turno = 1;
 void incializaMatriz();
 void imprimeMatriz();
 void gameLoop();
+int resultadoJogo();
+int menorLinha(int coluna);
 
 void inicializaMatriz()
 {
@@ -31,7 +33,7 @@ void imprimeMatriz()
 	textbackground(7);
 	for(i = 0; i < L; i++)
 	{
-		gotoxy(20, 5+i);
+		gotoxy(20, 2+i);
 		for(j = 0; j < C; j++)
 		{
 			if(m[i][j] == 0)
@@ -63,7 +65,6 @@ void imprimeMatriz()
 	textcolor(15);
 }
 
-int resultadoJogo();
 
 void gameLoop()
 {
@@ -71,15 +72,20 @@ void gameLoop()
 	
 	printf("Jogada do jogador %d (linha, coluna):\n", turno);
 	scanf("%d %d", &linha, &coluna);
+	linha--;
+	coluna--;
 	
 	res = resultadoJogo();
 	
 	while(res == 0)
 	{
-		while(linha < 0 || coluna < 0 || coluna >= C || linha >= L || m[linha][coluna] != 0)
+		while(linha < 0 || coluna < 0 || coluna >= C || linha >= L || m[linha][coluna] != 0 || menorLinha(coluna) == -1 || linha != menorLinha(coluna))
 		{
 			printf("Jogada do jogador %d (linha, coluna):\n", turno);
 			scanf("%d %d", &linha, &coluna);
+			
+			linha--;
+			coluna--;
 		}
 		
 		m[linha][coluna] = turno;
@@ -97,6 +103,10 @@ void gameLoop()
 			
 			printf("Jogada do jogador %d (linha, coluna):\n", turno);
 			scanf("%d %d", &linha, &coluna);
+			linha--;
+			coluna--;
+			
+			res = resultadoJogo();
 		}
 	}
 	
@@ -181,6 +191,17 @@ int resultadoJogo()
 			//empate
 			ret = -1;
 		
+	return ret;
+}
+
+int menorLinha(int coluna)
+{
+	int i, ret = -1;
+	
+	for(i = 0; i < L; i++)
+		if(m[i][coluna] == 0)
+			ret = i;
+	
 	return ret;
 }
 
