@@ -165,13 +165,13 @@ int resultadoJogo()
 				}
 				
 				//Checa na diagonal
-				if(j + 3 < C && i - 3 <= 0)
+				if(j + 3 < C && i - 3 >= 0)
 				{
 					cont = 0;
 					k = i - 1;
 					a = j + 1;
 					
-					while(k >= 0 && a <= i + 3 && cont < 3 && m[k][a] == m[i][j])
+					while(k >= i - 3 && a <= j + 3 && cont < 3 && m[k][a] == m[i][j])
 					{
 						k--;
 						a++;
